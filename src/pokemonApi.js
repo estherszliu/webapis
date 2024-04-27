@@ -47,7 +47,8 @@ async function putDataOnPage(dataToDisplay){
 	let imageContainer = document.getElementsByClassName("pokemonImage")[0];
 	let imageElement = imageContainer.getElementsByTagName("IMG")[0];
 
-	let shinyResult = Math.floor(Math.random() * 4) + 1;
+	let oddsUpperLimit = 4;
+	let shinyResult = Math.floor(Math.random() * oddsUpperLimit) + 1;
 
 	if (shinyResult == 1 ) {
 		imageElement.src = dataToDisplay.sprites.front_shiny;
@@ -59,6 +60,18 @@ async function putDataOnPage(dataToDisplay){
 	
 
 	// document.querySelector(".pokemonImage img").src = dataToDisplay.sprites.front_default;
+
+
+
+	let cryURL = dataToDisplay.cries.latest;
+    let pokemonAudioElement = document.querySelector(".pokemonCry audio")
+	pokemonAudioElement.src = cryURL;
+
+	let pokemonAudioPlayButton = document.querySelector(".pokemonCry");
+	pokemonAudioPlayButton.addEventListener("click", () => {
+		pokemonAudioElement.volume = 0.1;
+		pokemonAudioElement.play();
+	});
 
 
 
@@ -77,4 +90,64 @@ document.getElementById("create-encounter").addEventListener("click", getAndDisp
 
 // let pokemonButton = document.getElementById("create-encounter");
 // pokemonButton.addEventListener("click", getAndDisplayPokemonData);
+
+
+async function generateTeamData(){
+	
+
+
+	// let teamArray = [];
+	// for (let index = 0; index < 6; index++) {
+	// 	let data = await getPokemonData();
+	// 	teamArray.push(data);		
+	// }
+	// teamArray = promiseAllResult;
+
+
+	let promiseAllResult = await Promise.all([
+		getPokemonData(),
+		getPokemonData(),
+		getPokemonData(),
+		getPokemonData(),
+		getPokemonData(),
+		getPokemonData(),
+	]);
+
+
+
+	return promiseAllResult;
+}
+
+async function showTeamData(){
+
+}
+
+async function getAndShowTeamData(){
+	let teamData = await generateTeamData();
+	console.log(teamData);
+	showTeamData(teamData);	
+}
+
+document.getElementById("create-team").addEventListener("click", getAndShowTeamData);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
